@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in /input/*; do
+	rpmbuild --rebuild $file
+done
+
+if [ $? -eq 0 ]; then
+	cp $HOME/rpmbuild/RPMS/$(arch)/* /output
+fi
