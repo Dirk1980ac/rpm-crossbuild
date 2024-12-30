@@ -2,7 +2,7 @@
 # architecture on an X86_64 Host
 
 # We use the latest release of Fedora
-FROM registry.fedoraproject.org/fedora:latest
+FROM registry.fedoraproject.org/fedora-toolbox:latest
 
 LABEL description="Rebuild source rpms (for another host arch)."
 LABEL vendor="Dirk Gottschalk"
