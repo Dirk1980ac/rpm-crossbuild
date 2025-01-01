@@ -10,7 +10,9 @@ The rpm-crossbuild script is used to run the container and build the package.
 
 ## Usage
 
-Just invoke rpm-crossbuild with the apropriate parameters. It automatically will rebuild all .src.rpm files in the given input diretory and saves the resulting binary RPMs in the output directory.
+Just invoke rpm-crossbuild with the apropriate parameters. It automatically
+will rebuild all .src.rpm files in the given input diretory and saves the
+resulting binary RPMs in the output directory.
 
 ```text
 Usage: rpm-crossbuild -i <directory> -o <directory> -p <platform>
