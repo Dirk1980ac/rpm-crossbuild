@@ -1,6 +1,4 @@
-# Create a container suitable to build RPM packages for the desired target
-# architecture
-
+# Create a container suitable to build RPM packages for the desired target architecture
 # We use the latest release of Fedora
 FROM registry.fedoraproject.org/fedora:latest
 
@@ -8,17 +6,29 @@ FROM registry.fedoraproject.org/fedora:latest
 LABEL description="Rebuild source rpms (for another host arch)."
 LABEL vendor="Dirk Gottschalk"
 
-# Install packages
-RUN <<EOF
-dnf -y install automake autoconf autoconf-archive rpm-build libtool gcc \
-	pcsc-lite-devel libevent-devel glib2-devel systemd-devel
-dnf -y clean all
-EOF
 
 # Copy builder script
 COPY build-rpms /usr/local/bin/build-rpms
 
-VOLUME /input
-VOLUME /output
+# Install packages
+RUN <<EOF
+set -eu
+dnf -y update
+dnf -y install \
+	automake \
+	autoconf \
+	autoconf-archive \
+	rpm-build \
+	libtool \
+	gcc \
+	pcsc-lite-devel \
+	libevent-devel \
+	glib2-devel \
+	systemd-devel
 
-ENTRYPOINT [ "/usr/local/bin/build-rpms" ]
+dnf -y clean all
+EOF
+
+VOLUME /datadir
+
+ENTRYPOINT ["/usr/local/bin/build-rpms"]
