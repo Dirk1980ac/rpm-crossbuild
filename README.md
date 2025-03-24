@@ -18,8 +18,7 @@ resulting binary RPMs in the output directory.
 Usage: rpm-crossbuild -i <directory> -o <directory> -p <platform>
 
 Options:
-    -i <directory>      Input directory (mandatory)
-    -o <directory>      Output directory (mandatory)
+    -d <directory>      Working directory (mandatory)
     -p <platform>       Target platform (e.g linux/arm64) (mandatory)
     -h                  Show this help
 ```
