@@ -6,14 +6,15 @@ FROM registry.fedoraproject.org/fedora:latest
 LABEL description="Rebuild source rpms (for another host arch)."
 LABEL vendor="Dirk Gottschalk"
 
-
 # Copy builder script
 COPY build-rpms /usr/local/bin/build-rpms
 
 # Install packages
 RUN <<EOF
 set -eu
+
 dnf -y update
+
 dnf -y install \
 	automake \
 	autoconf \
