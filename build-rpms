@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in /datadir/*; do
+for file in /datadir/*.src.rpm; do
 	rpmbuild --rebuild --define "debug_package %{nil}" $file
 done
 
