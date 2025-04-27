@@ -25,7 +25,8 @@ dnf -y install \
 	pcsc-lite-devel \
 	libevent-devel \
 	glib2-devel \
-	systemd-devel
+	systemd-devel \
+	glib2-devel
 
 dnf -y clean all
 EOF
