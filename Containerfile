@@ -25,8 +25,7 @@ dnf -y --setopt="install_weak_deps=False" install \
 	pcsc-lite-devel \
 	libevent-devel \
 	glib2-devel \
-	systemd-devel \
-	glib2-devel
+	systemd-devel 
 
 dnf -y clean all
 EOF
