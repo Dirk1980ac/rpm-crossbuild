@@ -15,7 +15,7 @@ set -eu
 
 dnf -y update
 
-dnf -y install \
+dnf -y --setopt="install_weak_deps=False" install \
 	automake \
 	autoconf \
 	autoconf-archive \
