@@ -2,9 +2,16 @@
 # We use the latest release of Fedora
 FROM registry.fedoraproject.org/fedora:latest
 
+ENV imgname="rpm-crossbuild"
+ARG buildid="unset"
+
 # Add some metadata.
-LABEL description="Rebuild source rpms (for another host arch)."
-LABEL vendor="Dirk Gottschalk"
+LABEL org.opencontainers.image.name=${imagename} \
+	org.opencontainers.image.version=${buildid} \
+	org.opencontainers.image.description="(Cross) build rpms from source rpms." \
+	org.opencontainers.image.vendor="Dirk Gottschalk" \
+	org.opencontainers.image.author="Dirk Gottschalk" \
+	org.opencontainers.image.name=${imgname}
 
 # Copy builder script
 COPY build-rpms /usr/local/bin/build-rpms
@@ -25,7 +32,7 @@ dnf -y --setopt="install_weak_deps=False" install \
 	pcsc-lite-devel \
 	libevent-devel \
 	glib2-devel \
-	systemd-devel 
+	systemd-devel
 
 dnf -y clean all
 EOF
