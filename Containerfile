@@ -9,20 +9,15 @@ ARG buildid="unset"
 LABEL org.opencontainers.image.name=${imagename} \
 	org.opencontainers.image.version=${buildid} \
 	org.opencontainers.image.description="(Cross) build rpms from source rpms." \
-	org.opencontainers.image.vendor="Dirk Gottschalk" \
+	org.opencontainers.image.vendor="Glock GmbH" \
 	org.opencontainers.image.author="Dirk Gottschalk" \
 	org.opencontainers.image.name=${imgname}
 
 # Copy builder script
-COPY build-rpms /usr/local/bin/build-rpms
+COPY build-rpms /usr/bin/build-rpms
 
 # Install packages
-RUN <<EOF
-set -eu
-
-dnf -y update
-
-dnf -y --setopt="install_weak_deps=False" install \
+RUN dnf -y --setopt="install_weak_deps=False" install \
 	automake \
 	autoconf \
 	autoconf-archive \
@@ -32,11 +27,10 @@ dnf -y --setopt="install_weak_deps=False" install \
 	pcsc-lite-devel \
 	libevent-devel \
 	glib2-devel \
-	systemd-devel
+	systemd-devel && \
+	dnf -y clean all
 
-dnf -y clean all
-EOF
 
 VOLUME /datadir
 
-ENTRYPOINT ["/usr/local/bin/build-rpms"]
+ENTRYPOINT ["/usr/bin/build-rpms"]
