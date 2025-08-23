@@ -1,9 +1,9 @@
 #!/bin/bash
 
+set -eu
+
 for file in /datadir/*.src.rpm; do
 	rpmbuild --rebuild --define "debug_package %{nil}" "$file"
 done
 
-if [ $? -eq 0 ]; then
-	cp "${HOME}"/rpmbuild/RPMS/"$(arch)"/* /datadir
-fi
+cp "${HOME}"/rpmbuild/RPMS/"$(arch)"/* /datadir
