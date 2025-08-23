@@ -17,7 +17,11 @@ LABEL org.opencontainers.image.name=${imagename} \
 COPY build-rpms /usr/bin/build-rpms
 
 # Install packages
-RUN dnf -y --setopt="install_weak_deps=False" install \
+RUN <<EORUN
+set -eu
+dnf -y \
+	--setopt="install_weak_deps=False" \
+	--no-docs install \
 	automake \
 	autoconf \
 	autoconf-archive \
@@ -30,6 +34,9 @@ RUN dnf -y --setopt="install_weak_deps=False" install \
 	systemd-devel && \
 	dnf -y clean all
 
+rm -rf /var/log/*
+rm -rf /var/cache/*
+EORUN
 
 VOLUME /datadir
 
