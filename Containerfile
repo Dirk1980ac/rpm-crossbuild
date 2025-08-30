@@ -2,26 +2,27 @@
 # We use the latest release of Fedora
 FROM registry.fedoraproject.org/fedora:latest
 
-ENV imgname="rpm-crossbuild"
-ARG buildid="unset"
-
-# Add some metadata.
-LABEL org.opencontainers.image.name=${imagename} \
-	org.opencontainers.image.version=${buildid} \
-	org.opencontainers.image.description="(Cross) build rpms from source rpms." \
-	org.opencontainers.image.vendor="Glock GmbH" \
-	org.opencontainers.image.author="Dirk Gottschalk" \
-	org.opencontainers.image.name=${imgname}
-
 # Copy builder script
 COPY build-rpms /usr/bin/build-rpms
 
 # Install packages
 RUN <<EORUN
 set -eu
+
+rm /etc/rpm/macros.image-language-conf
+sed -i '/tsflags=nodocs/d' /etc/dnf/dnf.conf
+
+dnf -y upgrade
+dnf -y swap coreutils-single coreutils-full
+dnf -y swap glibc-minimal-langpack glibc-all-langpacks
+
 dnf -y \
 	--setopt="install_weak_deps=False" \
 	--no-docs install \
+	passwd \
+	shadow-utils \
+	util-linux \
+	vte-profile \
 	automake \
 	autoconf \
 	autoconf-archive \
@@ -31,12 +32,24 @@ dnf -y \
 	pcsc-lite-devel \
 	libevent-devel \
 	glib2-devel \
-	systemd-devel && \
-	dnf -y clean all
+	systemd-devel
 
+dnf -y clean all
 rm -rf /var/log/*
 rm -rf /var/cache/*
 EORUN
+
+ENV imgname="rpm-crossbuild"
+ARG buildid="unset"
+
+LABEL com.github.containers.toolbox="true" \
+	name="$imagename" \
+	version="$VERSION" \
+	usage="This image is meant to be used with the toolbox command" \
+	summary="Base image for creating Fedora toolbox containers" \
+	maintainer="Dirk Gottschalk <dirk.gottschalk1980@googlemail.com>"
+
+COPY README.md /
 
 VOLUME /datadir
 

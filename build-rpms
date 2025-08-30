@@ -1,9 +1,10 @@
 #!/bin/bash
 
 set -eu
+ARCH=$(arch)
 
 for file in /datadir/*.src.rpm; do
-	rpmbuild --rebuild --define "debug_package %{nil}" "$file"
+	rpmbuild --rebuild --define "debug_package %{nil}" "${file}"
 done
 
-cp "${HOME}"/rpmbuild/RPMS/"$(arch)"/* /datadir
+cp "${HOME}/rpmbuild/RPMS/${ARCH}/*" /datadir
