@@ -9,9 +9,7 @@ COPY build-rpms /usr/bin/build-rpms
 RUN <<EORUN
 set -eu
 
-rm /etc/rpm/macros.image-language-conf
 sed -i '/tsflags=nodocs/d' /etc/dnf/dnf.conf
-
 dnf -y upgrade
 dnf -y swap coreutils-single coreutils-full
 dnf -y swap glibc-minimal-langpack glibc-all-langpacks
@@ -35,8 +33,7 @@ dnf -y \
 	systemd-devel
 
 dnf -y clean all
-rm -rf /var/log/*
-rm -rf /var/cache/*
+rm -rf /var/{log,cache}/*
 EORUN
 
 ENV imgname="rpm-crossbuild"
