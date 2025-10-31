@@ -9,14 +9,8 @@ COPY build-rpms /usr/bin/build-rpms
 RUN <<EORUN
 set -eu
 
-sed -i '/tsflags=nodocs/d' /etc/dnf/dnf.conf
-dnf -y upgrade
-dnf -y swap coreutils-single coreutils-full
-dnf -y swap glibc-minimal-langpack glibc-all-langpacks
 
-dnf -y \
-	--setopt="install_weak_deps=False" \
-	--no-docs install \
+dnf -y --setopt="install_weak_deps=False" --no-docs install \
 	passwd \
 	shadow-utils \
 	util-linux \
@@ -33,7 +27,7 @@ dnf -y \
 	systemd-devel
 
 dnf -y clean all
-rm -rf /var/{log,cache}/*
+rm -rf /var/{log,cache,spool,tmp}/*
 EORUN
 
 ENV imgname="rpm-crossbuild"
