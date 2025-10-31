@@ -39,12 +39,11 @@ EORUN
 ENV imgname="rpm-crossbuild"
 ARG buildid="unset"
 
-LABEL com.github.containers.toolbox="true" \
-	name="$imagename" \
-	version="$VERSION" \
-	usage="This image is meant to be used with the toolbox command" \
-	summary="Base image for creating Fedora toolbox containers" \
-	maintainer="Dirk Gottschalk <dirk.gottschalk1980@googlemail.com>"
+LABEL org.opencontainers.image.vendor="Dirk Gottschalk" \
+	org.opencontainers.image.authors="Dirk Gottschalk" \
+	org.opencontainers.image.name=${imagename} \
+	org.opencontainers.image.version=${buildid} \
+	org.opencontainers.image.description="Description"
 
 COPY README.md /
 
